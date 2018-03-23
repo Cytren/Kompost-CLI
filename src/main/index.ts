@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import * as commander from "commander";
+import { loadPackageMeta } from "./core/package-meta-loader";
 import create from "./create";
 
-const packageData = require("../../package.json");
+const packageData = loadPackageMeta();
 
 commander
     .command("create <dir>")

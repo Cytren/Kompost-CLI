@@ -1,6 +1,6 @@
 
-import { walk } from "./walker";
-import { glob } from "./glob";
+import { walk } from "../core/walker";
+import { glob } from "../core/glob";
 import { parseTemplates } from "./template";
 import { copy, existsSync, readFile, writeFile, unlink } from "fs-extra";
 import { resolve } from "path";
