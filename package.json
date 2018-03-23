@@ -1,0 +1,61 @@
+{
+  "name": "kompost-cli",
+  "version": "0.0.1",
+  "description": "CLI for KomPOST.",
+  "keywords": [
+    "kompost",
+    "framework",
+    "api",
+    "rest",
+    "restful",
+    "simple",
+    "elegant",
+    "cytren",
+    "cli"
+  ],
+  "author": "Cytren",
+  "private": true,
+  "license": "MIT",
+  "main": "build/main/index.js",
+  "types": "build/main/index.d.ts",
+  "bin": {
+    "kompost": "./build/main/index.js"
+  },
+  "scripts": {
+    "watch": "node node_modules/gulp/bin/gulp watch",
+    "clean": "node node_modules/gulp/bin/gulp clean",
+    "build": "node node_modules/gulp/bin/gulp build",
+    "package": "node node_modules/gulp/bin/gulp package",
+    "test": "node node_modules/gulp/bin/gulp build && node node_modules/mocha/bin/mocha build/test/test.js"
+  },
+  "dependencies": {
+    "commander": "^2.15.0",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "klaw": "^2.1.1",
+    "promptly": "^3.0.3",
+    "shelljs": "^0.8.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^5.0.1",
+    "@types/glob": "^5.0.35",
+    "@types/klaw": "^2.1.1",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.5.7",
+    "@types/promptly": "^1.1.28",
+    "@types/shelljs": "^0.7.8",
+    "@types/uuid": "^3.4.3",
+    "chai": "^4.1.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-sequence": "^0.4.6",
+    "gulp-typescript": "^3.2.1",
+    "mocha": "^3.4.2",
+    "tslint": "^5.7.0",
+    "typescript": "^2.6.2"
+  }
+}
