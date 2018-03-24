@@ -8,6 +8,16 @@ import { exec } from "shelljs";
 
 const TEMPLATE_PROPERTY_REGEX = /\$#([-_a-zA-Z0-9]+)#\$/g;
 
+function getBasePath () {
+    const productionPath = resolve(`${__dirname}/../../template`);
+
+    if (existsSync(productionPath)) {
+        return productionPath;
+    }
+
+    return resolve(`${__dirname}/../../../template`);
+}
+
 export default async function create (projectKey: string) {
     const dir = `${process.cwd()}/${projectKey}`;
 
@@ -17,7 +27,7 @@ export default async function create (projectKey: string) {
 
     const templateResults = await parseTemplates(projectKey);
 
-    const basePath = resolve(`${__dirname}/../../../template`);
+    const basePath = getBasePath();
     const files = await glob(`${basePath}/**/{*,.*}`);
 
     for (const file of files) {
