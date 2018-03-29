@@ -19,7 +19,7 @@ function getBasePath () {
 }
 
 export default async function create (projectKey: string) {
-    const dir = `${process.cwd()}/${projectKey}`;
+    const dir = resolve(`${process.cwd()}/${projectKey}`);
 
     if (existsSync(dir)) {
         throw new Error("The project already exists!");

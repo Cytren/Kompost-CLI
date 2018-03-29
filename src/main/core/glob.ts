@@ -1,5 +1,6 @@
 
 import * as performGlob from "glob";
+import { resolve as resolvePath } from "path";
 
 export function glob (pattern: string): Promise<string[]> {
     return new Promise<string[]>((resolve, reject) => {
@@ -7,7 +8,7 @@ export function glob (pattern: string): Promise<string[]> {
             if (error) {
                 reject(error);
             } else {
-                resolve(matches);
+                resolve(matches.map(path => resolvePath(path)));
             }
         });
     });
