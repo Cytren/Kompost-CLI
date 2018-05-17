@@ -22,7 +22,7 @@ export default class AuthController extends Controller {
 
     @post
     @request(AuthRequest)
-    public async create (auth: Auth): Promise<any> {
+    public async create (auth: Auth) {
         const user = await User.findOne({ username: auth.username });
 
         if (!user) {
@@ -60,7 +60,7 @@ export default class AuthController extends Controller {
     }
 
     @put(":token")
-    public async update (token: string): Promise<any> {
+    public async update (token: string) {
         const refreshToken = await RefreshToken.findOne({
             where: { token },
             relations: ["user"],
