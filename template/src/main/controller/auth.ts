@@ -42,7 +42,7 @@ export default class AuthController extends Controller {
                     order: { updatedAt: "ASC" },
                 });
 
-                await RefreshToken.removeById(oldestToken.id);
+                await oldestToken.remove();
             }
 
             const refreshToken = new RefreshToken();

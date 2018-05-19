@@ -1,18 +1,15 @@
 
-import {Request, Validation} from "kompost"
+import {RequestBuilder} from "kompost"
 import {hash} from "bcrypt";
 import User from "../model/user";
 
-export default class UserRequest extends Request<User> {
-    public type = User;
-
-    protected validation: Validation = {
-        username: "string",
-        password: "string",
-        email: ["string", "optional"]
-    };
-
-    protected async validate (model: any): Promise<User> {
+export default new RequestBuilder(User)
+    .validate({
+        username: { type: "string" },
+        password: { type: "string" },
+        email: { type: "string", optional: true }
+    })
+    .build(async model => {
         const user = new User();
 
         user.username = model.username;
@@ -21,5 +18,4 @@ export default class UserRequest extends Request<User> {
         user.type = "user";
 
         return user;
-    }
-}
+    });

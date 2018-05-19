@@ -38,7 +38,7 @@ export default class AuthMiddleware {
             try {
                 const token = verify(tokenString, this.environment.jwt.privateKey) as any;
                 provideDynamic(UserIdentifier, () => new UserIdentifier(token.sub));
-                provideDynamic(User, () => User.findOneById(token.sub));
+                provideDynamic(User, () => User.findOne(token.sub));
             } catch (error) {
                 context.body = { error };
                 return;
