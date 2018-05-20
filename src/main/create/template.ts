@@ -35,12 +35,12 @@ export const createTemplates = (projectKey: string): TemplateBuilder[] => [
     ({ appKey }) => ({
         key: "mysqlDatabase",
         question: "What is the mysql database name?",
-        defaultValue: appKey
+        defaultValue: appKey.replace(/-/g, "_")
     }),
-    ({ appKey }) => ({
+    () => ({
         key: "mysqlUsername",
         question: "What is the mysql username?",
-        defaultValue: appKey
+        defaultValue: "kompost"
     }),
     () => ({
         key: "mysqlPassword",
