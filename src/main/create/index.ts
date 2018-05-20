@@ -1,21 +1,15 @@
 
 import { walk } from "../core/walker";
-import { glob } from "../core/glob";
 import { parseTemplates } from "./template";
-import { copy, existsSync, readFile, writeFile, unlink } from "fs-extra";
+import { existsSync, readFile, writeFile, unlink, remove } from "fs-extra";
 import { resolve } from "path";
 import { exec } from "shelljs";
 
 const TEMPLATE_PROPERTY_REGEX = /\$#([-_a-zA-Z0-9]+)#\$/g;
 
-function getBasePath () {
-    const productionPath = resolve(`${__dirname}/../../template`);
-
-    if (existsSync(productionPath)) {
-        return productionPath;
-    }
-
-    return resolve(`${__dirname}/../../../template`);
+function execute (message: string, command: string) {
+    console.log(`${message}...`);
+    exec(command, { silent: true });
 }
 
 export default async function create (projectKey: string) {
@@ -27,31 +21,28 @@ export default async function create (projectKey: string) {
 
     const templateResults = await parseTemplates(projectKey);
 
-    const basePath = getBasePath();
-    const files = await glob(`${basePath}/**/{*,.*}`);
+    execute("Cloning template",
+        `git clone git@github.com:Cytren/Kompost-Template.git ${projectKey}`);
 
-    for (const file of files) {
-        await copy(file, file.replace(basePath, dir));
-    }
+    await remove(`${dir}/.git`);
 
-    const templatePaths = await walk(dir, path => path.endsWith(".template"));
+    const templatePaths = await walk(`${dir}/template`, path => path.endsWith(".template"));
 
     for (const templatePath of templatePaths) {
         const content = await readFile(templatePath, "utf-8");
         const data = content.replace(TEMPLATE_PROPERTY_REGEX, (substring, key) => templateResults[key]);
-        const path = templatePath.substring(0, templatePath.length - 9);
+        const path = templatePath
+            .substring(0, templatePath.length - 9)
+            .replace(/template\//g, "");
 
         await writeFile(path, data, "utf-8");
         await unlink(templatePath);
     }
 
-    const executeInProject = (message: string, command: string) => {
-        console.log(`${message}...`);
-        exec(`cd ${projectKey} && ${command}`, { silent: true });
-    };
+    const executeInProject = (message: string, command: string) =>
+        execute(message, `cd ${projectKey} && ${command}`);
 
     executeInProject("Installing npm dependencies", "npm i");
-    executeInProject("Installing latest version of KomPOST", "npm i --save kompost");
     executeInProject("Creating git repo", "git init");
     executeInProject("Creating initial git commit", "git add . && git commit -m 'Initial commit'");
 

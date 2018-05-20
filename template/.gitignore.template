@@ -1,9 +1,0 @@
-
-build/
-package/
-.idea/
-node_modules/
-public/
-
-.DS_Store
-environment.json
